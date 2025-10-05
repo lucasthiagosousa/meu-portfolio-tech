@@ -1,6 +1,14 @@
+
+
+import { GoogleGenAI } from "@google/genai";
+
 // =================================================================================
 // DADOS DA APLICAÇÃO (Anteriormente em constants.tsx e types.ts)
 // =================================================================================
+
+// ⚠️ Importante: Cole sua chave de API do Google AI Studio aqui para ativar os recursos de IA.
+// Obtenha sua chave em: https://aistudio.google.com/app/apikey
+const API_KEY = "AIzaSyCOuFKZH8XvabRmakA22NbK50EhlaxbKDw";
 
 const Icons = {
     Sun: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
@@ -23,6 +31,11 @@ const Icons = {
     BrainCircuit: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.001A3 3 0 0 0 12 5zm0 0a3 3 0 1 0 5.997.001A3 3 0 0 0 12 5zm0 0a3 3 0 1 0-5.997.001A3 3 0 0 0 12 5zm0 0a3 3 0 1 0 5.997.001A3 3 0 0 0 12 5z"/><path d="M12 8v4m0 0a3 3 0 1 0-5.997.001A3 3 0 0 0 12 12zm0 0a3 3 0 1 0 5.997.001A3 3 0 0 0 12 12z"/><path d="M12 15a3 3 0 1 0-5.997.001A3 3 0 0 0 12 15zm0 0a3 3 0 1 0 5.997.001A3 3 0 0 0 12 15z"/><path d="M12 18a3 3 0 1 0-5.997.001A3 3 0 0 0 12 18zm0 0a3 3 0 1 0 5.997.001A3 3 0 0 0 12 18z"/><path d="M20.3 7.7a3 3 0 1 0-2.6-2.6"/><path d="m18 12-.5.5"/><path d="M18 12a3 3 0 1 0-2.5 2.5"/><path d="m14.5 14.5-.5.5"/><path d="M14.5 14.5a3 3 0 1 0-2.5 2.5"/><path d="m9.5 19.5-.5.5"/><path d="M9.5 19.5a3 3 0 1 0-2.6-2.6"/><path d="M3.7 16.3a3 3 0 1 0 2.6 2.6"/><path d="M6 12l.5-.5"/><path d="M6 12a3 3 0 1 0 2.5-2.5"/><path d="m9.5 9.5.5-.5"/><path d="M9.5 9.5a3 3 0 1 0 2.5-2.5"/><path d="m14.5 4.5.5-.5"/><path d="M14.5 4.5a3 3 0 1 0 2.6 2.6"/></svg>',
     Server: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>',
     Share2: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>',
+    Bot: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>',
+    Send: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
+    Close: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    Sparkles: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M18 11.5V9.5a2 2 0 0 1 2-2h0"/><path d="M21 12.5h-2.5a2 2 0 0 0-2 2v0"/><path d="M18 12.5a2 2 0 0 1 2 2h0"/><path d="M21 9.5a2 2 0 0 0-2-2h0"/></svg>',
+    Spinner: '<svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>',
 };
 
 const PERSONAL_INFO = {
@@ -35,7 +48,7 @@ const PERSONAL_INFO = {
   whatsapp: "https://wa.me/5515981284016",
   linkedin: "https://www.linkedin.com/in/lucas-thiago-368628160/",
   github: "https://github.com/lucasthiagosousa",
-  cv_url: "Lucas Thiago de Sousa Silveira.pdf" // Placeholder for CV PDF
+  cv_url: "/Lucas Thiago de Sousa Silveira (3).pdf"
 };
 
 const SOFT_SKILLS = [
@@ -225,8 +238,6 @@ const SKILLS = [
       { name: "Windows/Linux e Mac OS", level: 80 },
       { name: "Servidores Windows/Linux", level: 80 },
       { name: "Manutencao", level: 80 },
-
-
     ]
   },
   {
@@ -264,10 +275,6 @@ const SKILLS = [
       { name: "NBS", level: 80 },
       { name: "Fandi", level: 80 },
       { name: "ViaNuvem", level: 80 },
-      
-
-
-
     ]
   },
   {
@@ -278,7 +285,6 @@ const SKILLS = [
       { name: "ITIL Foundation", level: 85 },
       { name: "HTML, CSS, JS ", level: 60 },
       { name: "Notion", level: 80 },
-      
     ]
   }
 ];
@@ -320,16 +326,116 @@ const LINKEDIN_HIGHLIGHTS = [
     {
         title: "Hackathon Qualcomm Edge AI & Dell - Consquistando posição de Destaque com aplicação ao Vivo",
         description: "Em apenas 30 horas no Hackathon Qualcomm Edge AI, no Cubo Itaú, desenvolvemos o Argos AI: uma solução de inteligência artificial totalmente local sem necessidade de internet, rodando nos novos notebooks Dell com Snapdragon X Plus. O Argos AI detecta comportamentos maliciosos",
-        imageUrl: "https://media.licdn.com/dms/image/v2/D4D22AQG84y-tZzhYKA/feedshare-shrink_2048_1536/B4DZkIqu6wH4A4-/0/1756787044613?e=1762387200&v=beta&t=Xd4SCg-h0-H_s6viZR2WFs37BNQwztUtRS0i2D4clcY",
+        imageUrl: "https://media.licdn.com/dms/image/v2/D4D22AQG84y-tZzhYKA/feedshare-shrink_2048_1536/0/1719504000000",
         postUrl: "https://www.linkedin.com/posts/lucas-thiago-368628160_hackathon-qualcommedgeai-dell-activity-7368498946219970560-O5K-",
     },
     {
         title: " Hackathon Visite São Paulo 2024 - Conquistando o 2° lugar da Competição",
         description: "O desafio do evento era instigante: “Como transformar os moradores de São Paulo em turistas na própria cidade, usando tecnologia? Nossa resposta foi um app de compartilhamento de fotos que recompensa os usuários com descontos em restaurantes locais, incentivando o turismo urbano e acessível.Tive a responsabilidade de estruturar o Project Model Canvas do grupo, aplicando ferramentas como Matriz GUT e Mapa de Empatia",
-        imageUrl: "https://media.licdn.com/dms/image/v2/D4D22AQFLVOiwPS_tpg/feedshare-shrink_1280/feedshare-shrink_1280/0/1729601551650?e=1762387200&v=beta&t=wmG88neWkLsmLeUQuoxa0u9eC-GarrRlZ9kgK_pAQZ0",
+        imageUrl: "https://media.licdn.com/dms/image/v2/D4D22AQFLVOiwPS_tpg/feedshare-shrink_1280/0/1729601551650",
         postUrl: "https://www.linkedin.com/posts/lucas-thiago-368628160_inovaaexaeto-dev-saetopaulo-activity-7254474715182862338-7J2a",
     }
 ];
+
+// =================================================================================
+// SERVIÇO DA API GEMINI
+// =================================================================================
+
+let ai;
+let chatSession;
+
+function initializeGemini() {
+    if (API_KEY && API_KEY !== "COLE_SUA_API_KEY_AQUI") {
+        try {
+            ai = new GoogleGenAI({ apiKey: API_KEY });
+        } catch(error) {
+            console.error("Failed to initialize GoogleGenAI. Check your API Key.", error);
+            ai = null;
+        }
+    } else {
+        console.warn("API_KEY not set. AI Features will be disabled.");
+        ai = null;
+    }
+}
+
+function generatePortfolioContext() {
+  const experienceSummary = EXPERIENCES.map(e => `${e.role} at ${e.company} (${e.period})`).join('; ');
+  const skillsSummary = SKILLS.flatMap(category => category.skills.map(skill => skill.name)).join(', ');
+  const projectsSummary = PROJECTS.map(p => p.title).join(', ');
+
+  return `
+    This is a context summary for an AI assistant on the portfolio website of Lucas Thiago de Sousa Silveira.
+    
+    Name: ${PERSONAL_INFO.name}
+    Title: ${PERSONAL_INFO.title}
+    About: ${PERSONAL_INFO.about}
+    
+    Key Experiences: ${experienceSummary}.
+    Key Skills: ${skillsSummary}.
+    Key Projects: ${projectsSummary}.
+  `;
+};
+
+async function generateSummary() {
+    try {
+        if (!ai) return "O recurso de IA não está configurado. A chave da API está ausente.";
+        
+        const context = generatePortfolioContext();
+        const prompt = `
+            ${context}
+            
+            Based on all the information provided about Lucas Silveira, act as a professional IT recruiter.
+            Write a concise and impactful "elevator pitch" (3-4 sentences) for a busy hiring manager.
+            Highlight his key strengths (like automation, proactive monitoring, and cloud technologies) and how they align with a Systems Analyst or IT Infrastructure role.
+            Use a professional but engaging tone. The response must be in Brazilian Portuguese.
+            Do not use any markdown formatting, especially asterisks for bolding.
+        `;
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+        });
+
+        return response.text;
+
+    } catch (error) {
+        console.error("Error generating summary with Gemini:", error);
+        return "Desculpe, não foi possível gerar o resumo no momento. Por favor, tente novamente mais tarde.";
+    }
+};
+
+function createChatSession() {
+    if (!chatSession && ai) {
+        const chatbotSystemInstruction = `
+            ${generatePortfolioContext()}
+            
+            Your role is to act as a helpful AI assistant for visitors of this portfolio. 
+            Answer questions about Lucas's skills, experience, and projects based on the information provided.
+            Be friendly, professional, and concise. If you don't know the answer, say that the information is not in your knowledge base.
+            Keep your answers relatively short and conversational. The conversation is in Brazilian Portuguese.
+            Do not use any markdown formatting, especially asterisks for bolding.
+        `;
+        chatSession = ai.chats.create({
+            model: 'gemini-2.5-flash',
+            config: { systemInstruction: chatbotSystemInstruction },
+        });
+    }
+    return chatSession;
+}
+
+async function sendMessageToBot(message) {
+  try {
+    if (!ai) return "Desculpe, o assistente de IA não está configurado corretamente.";
+    
+    const chat = createChatSession();
+    const response = await chat.sendMessage({ message });
+    return response.text;
+  } catch (error) {
+    console.error("Error sending message to Gemini:", error);
+    return "Desculpe, encontrei um erro. Por favor, tente novamente mais tarde.";
+  }
+}
+
 
 // =================================================================================
 // ESTADO DA APLICAÇÃO
@@ -350,6 +456,15 @@ let appState = {
     ],
     latencyHistory: {},
     cpuHistory: {},
+    chatbot: {
+        isOpen: false,
+        isLoading: false,
+        messages: [{ sender: 'bot', text: "Olá! Sou o assistente de IA do Lucas. Como posso te ajudar a saber mais sobre o portfólio dele?" }]
+    },
+    about: {
+        aiSummary: '',
+        isLoadingSummary: false,
+    }
 };
 
 // =================================================================================
@@ -360,7 +475,7 @@ function SectionComponent({ id, title, icon, children }) {
   return `
     <section id="${id}" class="py-16 md:py-24 scroll-reveal">
       <div class="flex items-center mb-12">
-        <span class="text-cyan-600 dark:text-cyan-400">${icon}</span>
+        <span class="text-purple-600 dark:text-cyan-400">${icon}</span>
         <h2 class="text-3xl md:text-4xl font-bold ml-4 text-gray-900 dark:text-gray-100">${title}</h2>
         <div class="flex-grow h-px bg-gray-300 dark:bg-gray-700 ml-6"></div>
       </div>
@@ -380,18 +495,18 @@ function HeaderComponent({ theme, isMenuOpen }) {
     return `
         <header class="bg-white/80 dark:bg-gray-900/50 backdrop-blur-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-800">
             <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 transition-colors">
+                <a href="#home" class="text-xl sm:text-2xl font-bold text-purple-600 dark:text-cyan-400 hover:text-purple-500 dark:hover:text-cyan-300 transition-colors">
                     LTS.dev
                 </a>
                 <nav class="hidden md:flex items-center space-x-6">
                     ${navLinks.map(link => `
-                        <a href="${link.href}" class="text-gray-600 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
+                        <a href="${link.href}" class="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-cyan-400 transition-colors">
                             ${link.label}
                         </a>
                     `).join('')}
                     <button
                         onclick="toggleTheme()"
-                        class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900 transition-colors"
+                        class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900 transition-colors"
                         aria-label="Alternar tema"
                     >
                         ${theme === 'dark' ? Icons.Sun : Icons.Moon}
@@ -400,12 +515,12 @@ function HeaderComponent({ theme, isMenuOpen }) {
                 <div class="md:hidden flex items-center">
                      <button
                         onclick="toggleTheme()"
-                        class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900 transition-colors"
+                        class="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-900 transition-colors"
                         aria-label="Alternar tema"
                     >
                         ${theme === 'dark' ? Icons.Sun : Icons.Moon}
                     </button>
-                    <button onclick="toggleMenu()" class="text-gray-600 dark:text-gray-300 focus:outline-none ml-4">
+                    <button onclick="toggleMenu()" class="text-gray-600 dark:text-gray-300 focus:outline-none ml-4" aria-label="Abrir menu">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}"></path>
                         </svg>
@@ -413,9 +528,9 @@ function HeaderComponent({ theme, isMenuOpen }) {
                 </div>
             </div>
             ${isMenuOpen ? `
-                <div id="mobile-menu" class="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                <div id="mobile-menu" class="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
                     ${navLinks.map(link => `
-                         <a href="${link.href}" onclick="toggleMenu()" class="block py-3 px-6 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-cyan-600 dark:hover:text-cyan-400">
+                         <a href="${link.href}" onclick="closeMenu()" class="block py-3 px-6 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-purple-600 dark:hover:text-cyan-400">
                              ${link.label}
                          </a>
                     `).join('')}
@@ -427,7 +542,7 @@ function HeaderComponent({ theme, isMenuOpen }) {
 
 function HomeComponent({ terminalText }) {
   return `
-    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center -mt-24">
+    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center py-12 md:py-20">
         <div class="max-w-4xl mx-auto">
             <div class="font-mono text-green-600 dark:text-green-400 bg-gray-100 dark:bg-black dark:bg-opacity-50 p-4 rounded-lg text-sm md:text-base mb-8 border border-gray-300 dark:border-gray-700">
               <p>&gt; ${terminalText}<span class="terminal-cursor">_</span></p>
@@ -436,7 +551,7 @@ function HomeComponent({ terminalText }) {
             <h1 class="text-5xl md:text-7xl font-bold text-black dark:text-white mb-4">
                 ${PERSONAL_INFO.name}
             </h1>
-            <p class="text-xl md:text-2xl text-cyan-600 dark:text-cyan-400 mb-6">
+            <p class="text-xl md:text-2xl text-purple-600 dark:text-cyan-400 mb-6">
                 ${PERSONAL_INFO.title}
             </p>
             <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10">
@@ -446,7 +561,7 @@ function HomeComponent({ terminalText }) {
                 <a 
                     href="${PERSONAL_INFO.cv_url}" 
                     download 
-                    class="flex items-center justify-center bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 w-full sm:w-auto"
+                    class="flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 w-full sm:w-auto"
                 >
                     ${Icons.Download}
                     <span class="ml-2">Baixar Currículo PDF</span>
@@ -484,20 +599,42 @@ function HomeComponent({ terminalText }) {
   `;
 }
 
-function AboutComponent() {
+function AboutComponent({ aiSummary, isLoadingSummary }) {
+  const isAiDisabled = !ai;
   const content = `
     <div class="grid md:grid-cols-3 gap-12 items-center">
       <div class="md:col-span-2">
           <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300 text-justify">
               ${PERSONAL_INFO.about}
           </p>
+           <div class="mt-8">
+            <button
+              onclick="handleGenerateSummary()"
+              ${(isLoadingSummary || isAiDisabled) ? 'disabled' : ''}
+              class="inline-flex items-center justify-center bg-purple-600 hover:bg-purple-700 disabled:bg-purple-800 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105"
+            >
+              ${isLoadingSummary 
+                ? `<span class="mr-2">${Icons.Spinner}</span>` 
+                : `<span class="mr-2">${Icons.Sparkles}</span>`
+              }
+              ${isLoadingSummary ? 'Gerando...' : 'Gerar Resumo com IA para Recrutadores'}
+            </button>
+             ${isAiDisabled ? `<p class="text-xs text-gray-500 mt-2">Recurso de IA indisponível. Verifique a API Key.</p>` : ''}
+          </div>
+
+          ${aiSummary ? `
+            <div class="mt-6 p-4 bg-purple-50 dark:bg-cyan-900/20 border border-purple-200 dark:border-cyan-800 rounded-lg">
+                <h4 class="font-bold text-lg text-purple-800 dark:text-cyan-300 mb-2">Resumo Gerado por IA</h4>
+                <p class="text-purple-900 dark:text-cyan-200">${aiSummary}</p>
+            </div>
+          ` : ''}
       </div>
       <div>
-          <h3 class="text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-6">Soft Skills</h3>
+          <h3 class="text-2xl font-bold text-purple-600 dark:text-cyan-400 mb-6">Soft Skills</h3>
           <div class="flex flex-wrap gap-4">
               ${SOFT_SKILLS.map(skill => `
-                  <div class="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-2 transition-transform transform hover:scale-110 hover:bg-cyan-50 dark:hover:bg-cyan-900/50 cursor-default">
-                      <span class="text-cyan-600 dark:text-cyan-400 mr-2">${skill.icon}</span>
+                  <div class="flex items-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-2 transition-transform transform hover:scale-110 hover:bg-purple-50 dark:hover:bg-cyan-900/50 cursor-default">
+                      <span class="text-purple-600 dark:text-cyan-400 mr-2">${skill.icon}</span>
                       <span class="text-sm font-medium text-gray-800 dark:text-gray-200">${skill.name}</span>
                   </div>
               `).join('')}
@@ -505,7 +642,16 @@ function AboutComponent() {
       </div>
     </div>
   `;
-  return SectionComponent({ id: "about", title: "Sobre Mim", icon: Icons.UserCheck, children: content });
+  return `
+    <section id="about" class="pt-0 pb-16 md:pb-24 scroll-reveal">
+      <div class="flex items-center mb-12">
+        <span class="text-purple-600 dark:text-cyan-400">${Icons.UserCheck}</span>
+        <h2 class="text-3xl md:text-4xl font-bold ml-4 text-gray-900 dark:text-gray-100">Sobre Mim</h2>
+        <div class="flex-grow h-px bg-gray-300 dark:bg-gray-700 ml-6"></div>
+      </div>
+      ${content}
+    </section>
+  `;
 }
 
 function ExperienceComponent({ activeFilter }) {
@@ -532,7 +678,7 @@ function ExperienceComponent({ activeFilter }) {
             onclick="setExperienceFilter('${filter}')"
             class="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ease-in-out transform hover:scale-105 ${
               activeFilter === filter
-                ? 'bg-cyan-600 dark:bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                ? 'bg-purple-600 dark:bg-cyan-500 text-white shadow-lg shadow-purple-500/30'
                 : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
             }"
           >
@@ -541,24 +687,24 @@ function ExperienceComponent({ activeFilter }) {
         `).join('')}
       </div>
 
-      <div class="relative border-l-2 border-cyan-800 dark:border-cyan-700 pl-10 space-y-16">
+      <div class="relative border-l-2 border-purple-800 dark:border-cyan-700 pl-8 md:pl-10 space-y-12 md:space-y-16">
         ${filteredExperiences.length > 0 ? `
-            <div class="absolute w-3 h-3 bg-cyan-500 dark:bg-cyan-400 rounded-full -left-1.5 top-2.5 ring-8 ring-gray-50 dark:ring-[#0a0a1a]"></div>
+            <div class="absolute w-3 h-3 bg-purple-500 dark:bg-cyan-400 rounded-full -left-1.5 top-2.5 ring-8 ring-gray-50 dark:ring-[#0a0a1a]"></div>
             ${filteredExperiences.map(exp => `
               <div class="relative">
-                 <div class="absolute w-3 h-3 bg-cyan-500 dark:bg-cyan-400 rounded-full -left-[46px] top-2 ring-8 ring-gray-50 dark:ring-[#0a0a1a]"></div>
-                <div class="p-6 bg-white dark:bg-gray-900 dark:bg-opacity-50 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg hover:border-cyan-600 dark:hover:border-cyan-500 transition-all">
+                 <div class="absolute w-3 h-3 bg-purple-500 dark:bg-cyan-400 rounded-full -left-[38px] md:-left-[46px] top-2 ring-8 ring-gray-50 dark:ring-[#0a0a1a]"></div>
+                <div class="p-4 md:p-6 bg-white dark:bg-gray-900 dark:bg-opacity-50 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg hover:border-purple-600 dark:hover:border-cyan-500 transition-all">
                   <div class="flex justify-between items-start flex-col sm:flex-row">
-                    <h3 class="text-2xl font-bold text-cyan-600 dark:text-cyan-400">${exp.role}</h3>
-                    <span class="bg-gray-100 dark:bg-gray-800 text-cyan-700 dark:text-cyan-300 text-sm font-medium px-3 py-1 rounded-full mt-2 sm:mt-0">${exp.period}</span>
+                    <h3 class="text-2xl font-bold text-purple-600 dark:text-cyan-400">${exp.role}</h3>
+                    <span class="bg-gray-100 dark:bg-gray-800 text-purple-700 dark:text-cyan-300 text-sm font-medium px-3 py-1 rounded-full mt-2 sm:mt-0 whitespace-nowrap">${exp.period}</span>
                   </div>
                   <p class="text-lg font-semibold text-gray-800 dark:text-gray-300 mb-4">${exp.company}</p>
                   <ul class="space-y-3">
                     ${exp.responsibilities.map(resp => `
                       <li class="flex items-start">
-                        <span class="text-cyan-600 dark:text-cyan-400 mr-3 mt-1">${Icons.ChevronRight}</span>
+                        <span class="text-purple-600 dark:text-cyan-400 mr-3 mt-1">${Icons.ChevronRight}</span>
                         <span class="text-gray-700 dark:text-gray-300">
-                          ${resp.replace(/\*\*(.*?)\*\*/g, '<strong class="text-cyan-700 dark:text-cyan-300 font-semibold">$1</strong>')}
+                          ${resp.replace(/\*\*(.*?)\*\*/g, '<strong class="text-purple-700 dark:text-cyan-300 font-semibold">$1</strong>')}
                         </span>
                       </li>
                     `).join('')}
@@ -577,39 +723,63 @@ function ExperienceComponent({ activeFilter }) {
 }
 
 function SkillsComponent() {
-    const allSkills = SKILLS.flatMap(category => category.skills.map(skill => skill.name)).sort(() => Math.random() - 0.5);
-    const midPoint = Math.ceil(allSkills.length / 2);
-    const row1Skills = allSkills.slice(0, midPoint);
-    const row2Skills = allSkills.slice(midPoint);
+    const title = "Habilidades Técnicas";
+    const icon = Icons.Code;
+    const allSkills = SKILLS.flatMap(category => category.skills.map(skill => skill.name));
+    const marqueeSkills = [...allSkills].sort(() => Math.random() - 0.5);
+    const midPoint = Math.ceil(marqueeSkills.length / 2);
+    const row1Skills = marqueeSkills.slice(0, midPoint);
+    const row2Skills = marqueeSkills.slice(midPoint);
 
-    const createSkillTags = (skills) => 
-        [...skills, ...skills].map(skill => `
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-5 py-2 text-nowrap transition-transform transform hover:scale-110 hover:bg-cyan-50 dark:hover:bg-cyan-900/50 cursor-default">
-                <span class="text-sm font-medium text-cyan-700 dark:text-cyan-400">${skill}</span>
+    const createSkillTagsMarquee = (skills) => 
+        [...skills, ...skills].map((skill, index) => `
+            <div class="scroll-reveal bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-5 py-2 text-nowrap transition-transform transform hover:scale-110 hover:bg-purple-50 dark:hover:bg-cyan-900/50 cursor-default" style="transition-delay: ${index * 25}ms">
+                <span class="text-sm font-medium text-purple-700 dark:text-cyan-400">${skill}</span>
             </div>
         `).join('');
 
     const content = `
-        <div class="relative group w-full overflow-hidden bg-gray-100/50 dark:bg-gray-900/50 py-8 rounded-lg border border-gray-200 dark:border-gray-800 [mask-image:_linear_gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+        <div class="hidden md:block relative group w-full overflow-hidden bg-gray-100/50 dark:bg-gray-900/50 py-8 rounded-lg border border-gray-200 dark:border-gray-800 [mask-image:_linear_gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
             <div class="space-y-4">
                 <div class="flex items-center space-x-4 w-max animate-scroll-ltr group-hover:[animation-play-state:paused]">
-                    ${createSkillTags(row1Skills)}
+                    ${createSkillTagsMarquee(row1Skills)}
                 </div>
                 <div class="flex items-center space-x-4 w-max animate-scroll-rtl group-hover:[animation-play-state:paused]">
-                    ${createSkillTags(row2Skills)}
+                    ${createSkillTagsMarquee(row2Skills)}
                 </div>
             </div>
         </div>
+        <div class="block md:hidden">
+            <div class="grid grid-cols-2 gap-3">
+                ${allSkills.sort().map((skill, index) => `
+                    <div class="scroll-reveal bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-2 text-center" style="transition-delay: ${index * 25}ms">
+                        <span class="text-sm font-medium text-purple-700 dark:text-cyan-400">${skill}</span>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
     `;
-    return SectionComponent({ id: "skills", title: "Habilidades Técnicas", icon: Icons.Code, children: content });
+    
+    return `
+      <section id="skills" class="py-16 md:py-24 scroll-reveal">
+        <div class="flex items-center mb-12">
+          <span class="text-purple-600 dark:text-cyan-400">${icon}</span>
+          <h2 class="text-3xl md:text-4xl font-bold ml-4 text-gray-900 dark:text-gray-100">${title}</h2>
+          <div class="flex-grow h-px bg-gray-300 dark:bg-gray-700 ml-6"></div>
+        </div>
+        ${content}
+      </section>
+    `;
 }
 
 function ProjectsComponent() {
+    const title = "Projetos em Destaque";
+    const icon = Icons.Target;
     const content = `
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            ${PROJECTS.map(project => `
-                <div class="bg-white dark:bg-gray-900 dark:bg-opacity-50 p-6 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col items-start hover:border-cyan-600/50 dark:hover:border-cyan-500/50 hover:shadow-cyan-600/20 dark:hover:shadow-cyan-500/20 hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
-                    <div class="text-cyan-600 dark:text-cyan-400 bg-gray-100 dark:bg-gray-800 p-3 rounded-full mb-4">
+            ${PROJECTS.map((project, index) => `
+                <div class="scroll-reveal bg-white dark:bg-gray-900 dark:bg-opacity-50 p-6 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col items-start hover:border-purple-600/50 dark:hover:border-cyan-500/50 hover:shadow-purple-600/20 dark:hover:shadow-cyan-500/20 hover:shadow-lg hover:-translate-y-2 transition-all duration-300" style="transition-delay: ${index * 100}ms">
+                    <div class="text-purple-600 dark:text-cyan-400 bg-gray-100 dark:bg-gray-800 p-3 rounded-full mb-4">
                         ${project.icon}
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${project.title}</h3>
@@ -618,19 +788,30 @@ function ProjectsComponent() {
             `).join('')}
         </div>
     `;
-    return SectionComponent({ id: "projects", title: "Projetos em Destaque", icon: Icons.Target, children: content });
+    return `
+      <section id="projects" class="py-16 md:py-24 scroll-reveal">
+        <div class="flex items-center mb-12">
+          <span class="text-purple-600 dark:text-cyan-400">${icon}</span>
+          <h2 class="text-3xl md:text-4xl font-bold ml-4 text-gray-900 dark:text-gray-100">${title}</h2>
+          <div class="flex-grow h-px bg-gray-300 dark:bg-gray-700 ml-6"></div>
+        </div>
+        ${content}
+      </section>
+    `;
 }
+
 
 function LinkedInHighlightsComponent() {
     const content = `
         <div class="grid md:grid-cols-2 gap-8">
             ${LINKEDIN_HIGHLIGHTS.map(highlight => `
-                <div class="bg-white dark:bg-gray-900 dark:bg-opacity-50 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden group hover:border-cyan-600/50 dark:hover:border-cyan-500/50 hover:shadow-cyan-600/20 dark:hover:shadow-cyan-500/20 hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
+                <div class="bg-white dark:bg-gray-900 dark:bg-opacity-50 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col overflow-hidden group hover:border-purple-600/50 dark:hover:border-cyan-500/50 hover:shadow-purple-600/20 dark:hover:shadow-cyan-500/20 hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
                     <div class="w-full h-48 overflow-hidden">
                         <img 
                             src="${highlight.imageUrl}" 
                             alt="${highlight.title}" 
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                             onError="(e) => (e.currentTarget.src = 'https://picsum.photos/seed/highlight/600/300')"
                         />
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
@@ -640,7 +821,7 @@ function LinkedInHighlightsComponent() {
                             href="${highlight.postUrl}" 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            class="mt-auto inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-cyan-600 dark:hover:bg-cyan-500 text-cyan-700 dark:text-cyan-400 hover:text-white dark:hover:text-white font-bold py-2 px-4 rounded-lg transition-all w-full sm:w-auto"
+                            class="mt-auto inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-purple-600 dark:hover:bg-cyan-500 text-purple-700 dark:text-cyan-400 hover:text-white dark:hover:text-white font-bold py-2 px-4 rounded-lg transition-all w-full sm:w-auto"
                         >
                             ${Icons.LinkedIn({width: 20, height: 20})}
                             <span class="ml-2">Ver no LinkedIn</span>
@@ -659,10 +840,10 @@ function EducationComponent() {
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
       ${EDUCATIONS.map(edu => `
         <div class="bg-white dark:bg-gray-900 dark:bg-opacity-50 p-6 rounded-lg border border-gray-200 dark:border-gray-800 text-center flex flex-col items-center hover:-translate-y-2 transition-transform">
-          <div class="text-cyan-600 dark:text-cyan-400 mb-4">${edu.icon}</div>
+          <div class="text-purple-600 dark:text-cyan-400 mb-4">${edu.icon}</div>
           <h3 class="text-xl font-bold text-gray-900 dark:text-white">${edu.course}</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-2">${edu.institution}</p>
-          <span class="px-3 py-1 text-sm rounded-full ${edu.status === 'Concluído' ? 'bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-300' : 'bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-300'}">
+          <span class="px-3 py-1 text-sm rounded-full ${edu.status === 'Concluído' ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' : 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300'}">
             ${edu.status}
           </span>
         </div>
@@ -674,10 +855,10 @@ function EducationComponent() {
 
 function CertificationsComponent() {
     const content = `
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
             ${CERTIFICATIONS.map(cert => `
                 <div class="bg-white dark:bg-gray-900 dark:bg-opacity-50 p-6 rounded-lg border border-gray-200 dark:border-gray-800 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                    <div class="text-cyan-600 dark:text-cyan-400 mb-3">
+                    <div class="text-purple-600 dark:text-cyan-400 mb-3">
                         ${cert.icon}
                     </div>
                     <h4 class="font-bold text-gray-900 dark:text-white text-base leading-tight">${cert.name}</h4>
@@ -695,7 +876,7 @@ function MonitoringSimulatorComponent({ services, latencyHistory, cpuHistory }) 
       degraded: { text: 'Degraded', color: 'bg-yellow-500', textColor: 'text-yellow-300', borderColor: 'border-yellow-500' },
       outage: { text: 'Outage', color: 'bg-red-500', textColor: 'text-red-300', borderColor: 'border-red-500' },
     };
-    const serviceColors = ['#38BDF8', '#34D399', '#FBBF24', '#F87171', '#A78BFA', '#FB923C'];
+    const serviceColors = ['#a855f7', '#34D399', '#FBBF24', '#F87171', '#A78BFA', '#FB923C'];
 
     const HistoryChart = ({ history, services: chartServices, title, unit, maxY }) => {
         const width = 500;
@@ -773,9 +954,9 @@ function MonitoringSimulatorComponent({ services, latencyHistory, cpuHistory }) 
                         </div>
                     </div>
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        Latência: <span class="font-mono text-cyan-700 dark:text-cyan-300">${service.latency.toFixed(0)}ms</span>
+                        Latência: <span class="font-mono text-purple-700 dark:text-cyan-300">${service.latency.toFixed(0)}ms</span>
                         <span class="mx-2 text-gray-400 dark:text-gray-600">|</span>
-                        CPU: <span class="font-mono text-cyan-700 dark:text-cyan-300">${service.cpu.toFixed(0)}%</span>
+                        CPU: <span class="font-mono text-purple-700 dark:text-cyan-300">${service.cpu.toFixed(0)}%</span>
                     </p>
                 </div>
             `).join('')}
@@ -801,17 +982,17 @@ function ContactComponent() {
             <form onsubmit="handleContactSubmit(event)" class="space-y-6">
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-600 dark:text-gray-400">Seu Nome</label>
-                    <input type="text" id="name" name="name" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required />
+                    <input type="text" id="name" name="name" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" required />
                 </div>
                 <div>
                     <label for="subject" class="block text-sm font-medium text-gray-600 dark:text-gray-400">Assunto</label>
-                    <input type="text" id="subject" name="subject" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required />
+                    <input type="text" id="subject" name="subject" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" required />
                 </div>
                 <div>
                     <label for="message" class="block text-sm font-medium text-gray-600 dark:text-gray-400">Mensagem</label>
-                    <textarea id="message" name="message" rows="4" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500" required></textarea>
+                    <textarea id="message" name="message" rows="4" class="mt-1 block w-full bg-gray-50 dark:bg-gray-800 border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-purple-500 focus:border-purple-500" required></textarea>
                 </div>
-                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-gray-50 dark:focus:ring-offset-gray-900 transition-colors">
+                <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-50 dark:focus:ring-offset-gray-900 transition-colors">
                     Enviar para ${PERSONAL_INFO.email}
                 </button>
             </form>
@@ -824,11 +1005,11 @@ function ContactComponent() {
                     <p class="text-green-600 dark:text-green-400">Clique para iniciar uma conversa</p>
                 </div>
             </a>
-            <a href="${PERSONAL_INFO.linkedin}" target="_blank" rel="noopener noreferrer" class="flex items-center p-6 bg-white dark:bg-gray-900 dark:bg-opacity-50 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-cyan-500 transition-colors">
-                <div class="text-cyan-500 dark:text-cyan-400">${Icons.LinkedIn({ width: 32, height: 32 })}</div>
+            <a href="${PERSONAL_INFO.linkedin}" target="_blank" rel="noopener noreferrer" class="flex items-center p-6 bg-white dark:bg-gray-900 dark:bg-opacity-50 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-purple-500 transition-colors">
+                <div class="text-purple-500 dark:text-cyan-400">${Icons.LinkedIn({ width: 32, height: 32 })}</div>
                 <div class="ml-4">
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">LinkedIn</h4>
-                    <p class="text-cyan-600 dark:text-cyan-400">Visite meu perfil profissional</p>
+                    <p class="text-purple-600 dark:text-cyan-400">Visite meu perfil profissional</p>
                 </div>
             </a>
             <a href="${PERSONAL_INFO.github}" target="_blank" rel="noopener noreferrer" class="flex items-center p-6 bg-white dark:bg-gray-900 dark:bg-opacity-50 rounded-lg border border-gray-200 dark:border-gray-800 hover:border-gray-500 transition-colors">
@@ -844,16 +1025,97 @@ function ContactComponent() {
   return SectionComponent({ id: "contact", title: "Contato", icon: Icons.Mail, children: content });
 }
 
+function ChatbotComponent({ chatbotState }) {
+  const { isOpen, messages, isLoading } = chatbotState;
+  const isAiDisabled = !ai;
+  
+  if (isAiDisabled) {
+      return '';
+  }
+
+  const chatbotWindow = isOpen ? `
+    <div id="chatbot-window" class="fixed bottom-24 right-6 w-full max-w-sm h-[60vh] bg-white dark:bg-gray-900 rounded-lg shadow-2xl flex flex-col border border-gray-200 dark:border-gray-700 z-50">
+      <header class="p-4 border-b dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-800 rounded-t-lg">
+        <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">Assistente de IA</h3>
+        <button onclick="toggleChatbot()" class="text-gray-500 hover:text-gray-800 dark:hover:text-gray-200">
+          ${Icons.Close}
+        </button>
+      </header>
+      <main id="chatbot-messages" class="flex-1 p-4 overflow-y-auto space-y-4">
+        ${messages.map(msg => `
+          <div class="flex items-end gap-2 ${msg.sender === 'user' ? 'justify-end' : ''}">
+            ${msg.sender === 'bot' ? `
+              <div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-cyan-900 flex items-center justify-center text-purple-600 dark:text-cyan-400 flex-shrink-0">
+                ${Icons.Bot}
+              </div>` : ''}
+            <div
+              class="max-w-xs md:max-w-md lg:max-w-xs rounded-lg px-4 py-2 ${msg.sender === 'user'
+                  ? 'bg-purple-600 text-white rounded-br-none'
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-bl-none'
+                }"
+            >
+              ${msg.text}
+            </div>
+          </div>
+        `).join('')}
+        ${isLoading ? `
+          <div class="flex items-end gap-2">
+            <div class="w-8 h-8 rounded-full bg-purple-100 dark:bg-cyan-900 flex items-center justify-center text-purple-600 dark:text-cyan-400 flex-shrink-0">
+              ${Icons.Bot}
+            </div>
+            <div class="max-w-xs rounded-lg px-4 py-2 bg-gray-200 dark:bg-gray-700">
+              <div class="flex items-center justify-center space-x-1">
+                <div class="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:-0.3s]"></div>
+                <div class="w-2 h-2 bg-gray-500 rounded-full animate-pulse [animation-delay:-0.15s]"></div>
+                <div class="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+          </div>` : ''}
+      </main>
+      <form onsubmit="handleChatbotSubmit(event)" class="p-4 border-t dark:border-gray-700 flex items-center gap-2 bg-gray-50 dark:bg-gray-800 rounded-b-lg">
+        <input
+          type="text"
+          id="chatbot-input"
+          placeholder="Pergunte sobre mim..."
+          class="flex-1 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-cyan-500 placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all duration-300"
+          ${isLoading ? 'disabled' : ''}
+        />
+        <button
+          type="submit"
+          class="bg-purple-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-purple-700 disabled:bg-purple-800 disabled:cursor-not-allowed"
+          ${isLoading ? 'disabled' : ''}
+          aria-label="Enviar mensagem"
+        >
+          ${Icons.Send}
+        </button>
+      </form>
+    </div>` : '';
+
+  return `
+    <div id="chatbot-container">
+        <button
+            onclick="toggleChatbot()"
+            class="fixed bottom-6 right-6 bg-purple-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-purple-700 transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 z-50"
+            aria-label="Abrir assistente de IA"
+        >
+            ${isOpen ? Icons.Close : Icons.Bot}
+        </button>
+        ${chatbotWindow}
+    </div>
+  `;
+}
+
+
 function FooterComponent() {
   return `
     <footer class="bg-white dark:bg-gray-900 dark:bg-opacity-50 border-t border-gray-200 dark:border-gray-800 mt-20">
         <div class="container mx-auto px-6 py-8 text-center text-gray-500">
             <p>&copy; ${new Date().getFullYear()} ${PERSONAL_INFO.name}. Todos os direitos reservados.</p>
             <div class="mt-4 flex justify-center space-x-6">
-                <a href="#home" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Início</a>
-                <a href="#about" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Sobre</a>
-                <a href="#experience" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Experiência</a>
-                <a href="#contact" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">Contato</a>
+                <a href="#home" class="hover:text-purple-600 dark:hover:text-cyan-400 transition-colors">Início</a>
+                <a href="#about" class="hover:text-purple-600 dark:hover:text-cyan-400 transition-colors">Sobre</a>
+                <a href="#experience" class="hover:text-purple-600 dark:hover:text-cyan-400 transition-colors">Experiência</a>
+                <a href="#contact" class="hover:text-purple-600 dark:hover:text-cyan-400 transition-colors">Contato</a>
             </div>
         </div>
     </footer>
@@ -870,9 +1132,9 @@ function renderApp() {
     if (!root) return;
     root.innerHTML = `
         ${HeaderComponent({ theme: appState.theme, isMenuOpen: appState.isMenuOpen })}
-        <main class="container mx-auto px-6 pt-24">
+        <main class="container mx-auto px-6 pt-16">
             ${HomeComponent({ terminalText: appState.terminalText })}
-            ${AboutComponent()}
+            ${AboutComponent({ aiSummary: appState.about.aiSummary, isLoadingSummary: appState.about.isLoadingSummary })}
             ${ExperienceComponent({ activeFilter: appState.activeExperienceFilter })}
             ${SkillsComponent()}
             ${ProjectsComponent()}
@@ -883,23 +1145,68 @@ function renderApp() {
             ${ContactComponent()}
         </main>
         ${FooterComponent()}
+        ${ChatbotComponent({ chatbotState: appState.chatbot })}
     `;
     initScrollReveal();
+    scrollToChatbotBottom();
 }
 
 function renderHeader() {
-    // Re-renderiza apenas o header, mais eficiente para menu/tema
     const headerElement = document.querySelector('header');
-    if(headerElement) {
+    if (headerElement) {
         headerElement.outerHTML = HeaderComponent({ theme: appState.theme, isMenuOpen: appState.isMenuOpen });
     }
 }
 
 function renderExperienceSection() {
-    const experienceElement = document.getElementById('experience');
+    let experienceElement = document.getElementById('experience');
     if (experienceElement) {
         experienceElement.outerHTML = ExperienceComponent({ activeFilter: appState.activeExperienceFilter });
-        initScrollReveal();
+        experienceElement = document.getElementById('experience');
+        if (experienceElement) {
+            initScrollRevealForElement(experienceElement);
+        }
+    }
+}
+
+function renderSimulatorSection() {
+    let simulatorElement = document.getElementById('simulator');
+    if (simulatorElement) {
+        simulatorElement.outerHTML = MonitoringSimulatorComponent({ services: appState.monitoredServices, latencyHistory: appState.latencyHistory, cpuHistory: appState.cpuHistory });
+        // Re-fetch the element from the DOM after replacement
+        simulatorElement = document.getElementById('simulator');
+        if (simulatorElement) {
+            initScrollRevealForElement(simulatorElement);
+        }
+    }
+}
+
+function renderChatbot() {
+    const chatbotContainer = document.getElementById('chatbot-container');
+    if (chatbotContainer) {
+        chatbotContainer.innerHTML = ChatbotComponent({ chatbotState: appState.chatbot });
+        scrollToChatbotBottom();
+    }
+}
+
+function renderAboutSection() {
+    let aboutElement = document.getElementById('about');
+    if (aboutElement) {
+        aboutElement.outerHTML = AboutComponent({ 
+            aiSummary: appState.about.aiSummary, 
+            isLoadingSummary: appState.about.isLoadingSummary 
+        });
+        aboutElement = document.getElementById('about');
+        if (aboutElement) {
+            initScrollRevealForElement(aboutElement);
+        }
+    }
+}
+
+function scrollToChatbotBottom() {
+    const messagesEl = document.getElementById('chatbot-messages');
+    if (messagesEl) {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 }
 
@@ -908,12 +1215,19 @@ window.toggleTheme = () => {
     appState.theme = appState.theme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', appState.theme);
     document.documentElement.classList.toggle('dark', appState.theme === 'dark');
-    renderHeader(); // Apenas o header precisa ser atualizado
+    renderHeader();
 };
 
 window.toggleMenu = () => {
     appState.isMenuOpen = !appState.isMenuOpen;
-    renderHeader(); // Apenas o header precisa ser atualizado
+    renderHeader();
+};
+
+window.closeMenu = () => {
+    if (appState.isMenuOpen) {
+        appState.isMenuOpen = false;
+        renderHeader();
+    }
 };
 
 window.setExperienceFilter = (filter) => {
@@ -931,25 +1245,69 @@ window.handleContactSubmit = (event) => {
     window.location.href = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
+window.toggleChatbot = () => {
+    appState.chatbot.isOpen = !appState.chatbot.isOpen;
+    renderChatbot();
+}
+
+window.handleChatbotSubmit = async (event) => {
+    event.preventDefault();
+    const input = document.getElementById('chatbot-input');
+    const userInput = input.value.trim();
+    if (!userInput || appState.chatbot.isLoading) return;
+
+    appState.chatbot.messages.push({ sender: 'user', text: userInput });
+    appState.chatbot.isLoading = true;
+    input.value = '';
+    renderChatbot();
+
+    const botResponse = await sendMessageToBot(userInput);
+    appState.chatbot.messages.push({ sender: 'bot', text: botResponse });
+    appState.chatbot.isLoading = false;
+    renderChatbot();
+}
+
+window.handleGenerateSummary = async () => {
+    appState.about.isLoadingSummary = true;
+    appState.about.aiSummary = '';
+    renderAboutSection();
+
+    const summary = await generateSummary();
+    appState.about.aiSummary = summary;
+    appState.about.isLoadingSummary = false;
+    renderAboutSection();
+}
+
 // Funções de inicialização
 function initTheme() {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    appState.theme = storedTheme || (prefersDark ? 'dark' : 'light');
+    const storedTheme = localStorage.getItem('theme') || 'dark';
+    appState.theme = storedTheme;
     document.documentElement.classList.toggle('dark', appState.theme === 'dark');
 }
 
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
 function initScrollReveal() {
     const revealElements = document.querySelectorAll('.scroll-reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
     revealElements.forEach(el => observer.observe(el));
 }
+
+function initScrollRevealForElement(element) {
+    const revealElements = element.querySelectorAll('.scroll-reveal');
+    if (revealElements.length > 0) {
+        revealElements.forEach(el => observer.observe(el));
+    } else if (element.classList.contains('scroll-reveal')) {
+        observer.observe(element);
+    }
+}
+
 
 function initTerminalAnimation() {
     const fullText = "Lucas, iniciando suporte avançado...";
@@ -968,7 +1326,6 @@ function initTerminalAnimation() {
 }
 
 function initMonitoringSimulator() {
-    // Inicializa o histórico
     appState.monitoredServices.forEach(s => {
         appState.latencyHistory[s.id] = Array(30).fill(s.latency);
         appState.cpuHistory[s.id] = Array(30).fill(s.cpu);
@@ -1009,12 +1366,7 @@ function initMonitoringSimulator() {
             if (appState.cpuHistory[s.id].length > 30) appState.cpuHistory[s.id].shift();
         });
         
-        const simulatorSection = document.getElementById('simulator');
-        if (simulatorSection) {
-            simulatorSection.outerHTML = MonitoringSimulatorComponent({ services: appState.monitoredServices, latencyHistory: appState.latencyHistory, cpuHistory: appState.cpuHistory });
-            initScrollReveal(); // Re-aplica o observer para o elemento substituído
-        }
-
+       renderSimulatorSection();
     }, 3000);
 }
 
@@ -1022,9 +1374,8 @@ function initMonitoringSimulator() {
 // Evento principal que inicia a aplicação
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initializeGemini();
     renderApp();
     initTerminalAnimation();
     initMonitoringSimulator();
 });
-
-
