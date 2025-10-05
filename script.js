@@ -35,7 +35,7 @@ const PERSONAL_INFO = {
   whatsapp: "https://wa.me/5515981284016",
   linkedin: "https://www.linkedin.com/in/lucas-thiago-368628160/",
   github: "https://github.com/lucasthiagosousa",
-  cv_url: "meu-portfolio-tech/Lucas Thiago de Sousa Silveira.pdf" // Placeholder for CV PDF
+  cv_url: "Lucas Thiago de Sousa Silveira.pdf" // Placeholder for CV PDF
 };
 
 const SOFT_SKILLS = [
@@ -1026,4 +1026,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initTerminalAnimation();
     initMonitoringSimulator();
 });
+
 
