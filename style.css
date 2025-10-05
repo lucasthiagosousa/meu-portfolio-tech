@@ -7,7 +7,7 @@ h1, h2, h3, h4, h5, h6 {
 .scroll-reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 .scroll-reveal.visible {
   opacity: 1;
@@ -16,18 +16,16 @@ h1, h2, h3, h4, h5, h6 {
 .terminal-cursor {
   animation: blink 1s step-end infinite;
 }
-/* A animação de piscar geral é para o tema escuro */
 @keyframes blink {
   from, to { color: transparent; }
   50% { color: #00f7ff; }
 }
-/* Cursor específico para o tema claro */
 html:not(.dark) .terminal-cursor {
-   animation: blink-light 1s step-end infinite;
+  animation: blink-light 1s step-end infinite;
 }
 @keyframes blink-light {
-   from, to { color: transparent; }
-   50% { color: #16a34a; }
+  from, to { color: transparent; }
+  50% { color: #16a34a; }
 }
 @keyframes scroll-ltr {
   from { transform: translateX(0); }
